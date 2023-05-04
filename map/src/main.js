@@ -17,9 +17,10 @@ Vue.component("l-icon", LIcon);
 import { Icon } from "leaflet";
 delete Icon.Default.prototype._getIconUrl;
 Icon.Default.mergeOptions({
-  iconRetinaUrl: require("leaflet/dist/images/marker-icon-2x.png"),
-  iconUrl: require("leaflet/dist/images/marker-icon.png"),
-  shadowUrl: require("leaflet/dist/images/marker-shadow.png")
+  iconRetinaUrl: require("D:/work_js/0501Web/tw2/Scripts/0502/SATW_forant/map/src/assets/cctv.png"),
+  iconUrl: require("D:/work_js/0501Web/tw2/Scripts/0502/SATW_forant/map/src/assets/cctv.png"),
+  shadowUrl: false,
+  iconSize: [40, 40]
 });
 
 Vue.config.productionTip = false

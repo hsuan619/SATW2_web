@@ -7,11 +7,11 @@
       <div ><h2/>Area Text</div>
       <a id="R1" href="#">
         <i class="fa fa-fw fa-star-o"></i>
-        <span @click="setCenter([23.908865090204138, 120.53309659725994]), setZoom();" > {{$store.state.mapCenter}}  Road1</span>
+        <span @click="setCenter([23.908865090204138, 120.53309659725994]), setZoom(14);" > {{$store.state.mapCenter}}  Road1</span>
       </a>
       <a id="R2" href="#">
         <i class="fa fa-fw fa-star-o"></i>
-        <span @click="setCenter([23.913262679155643, 120.61473275636878]), setZoom()" > {{$store.state.mapCenter}} Road2</span>
+        <span @click="setCenter([23.913262679155643, 120.61473275636878]), setZoom(14)" > {{$store.state.mapCenter}} Road2</span>
       </a>
       <a id="R3" href="#">
         <i class="fa fa-fw fa-star-o"></i>
@@ -47,9 +47,9 @@ import { mapActions, mapState } from 'vuex';
         // {setZoom: 'setZoom'},
         
         ),
-     setZoom(){
-        this.$store.state.mapZoom = 14
-     },
+        setZoom(z) {
+          this.$store.state.mapZoom = z
+        }
 
     },
     computed: {

@@ -1,23 +1,21 @@
 <template>
-    
+    <div>
     <div id="map" style="margin-top: 150px;">   
-        <l-map class="map" style="height: 500px; width: 600px;" :zoom="this.$store.state.mapZoom"
+        <l-map class="map" style="height: 500px; width: 600px;" :zoom="this.$store.state.mapZoom" :options="{zoomControl: false}"
             :center="$store.state.mapCenter" @update:zoom="zoomUpdated" @update:center="centerUpdated"
             @update:bounds="boundsUpdated">
-            <l-tile-layer :url="url" :attribution="attribution"></l-tile-layer>
-            <l-marker v-for="item in markerList" :key="item.id" :lat-lng="item.latlng" @click="setImg(item.id)"></l-marker>
+            <l-tile-layer :url="urlMap" :attribution="attribution"></l-tile-layer>
+            <l-marker v-for="item in markerList" :key="item.id" :lat-lng="item.latlng"  @click="setImg(item.id), setZoom(14)"></l-marker>
             
             <!--    src="${embedUrl}" -->
         </l-map>
     <div>
-    <img class="pop" :src="markerList[imgID].testSrc" />
+    <img class="pop" src="${embedUrl}" />
 </div>
     </div>
-
+</div>
         
-            <!-- {{markerList[imgID].testSrc}} <img class="pop" :src="markerList[imgID - 1].testSrc" /> -->
- 
-        <!-- <img class="pop" v-if="showImg" v-for="item in markerList" :src="item.testSrc" /> -->
+<!-- <img class="pop" :src="markerList[imgID].testSrc" /> -->
 </template>
   
 <script>
@@ -34,8 +32,8 @@ export default {
     },
     data() {
         return {
-
-            url: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
+            
+            urlMap: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             bounds: null,
             switchSumo: false,
             markerList: [
@@ -54,6 +52,7 @@ export default {
             ],
             showImg: false,
             imgID: 0,
+            iconUrl: 'cctv.png',
         };
     },
     mounted() {
@@ -63,9 +62,6 @@ export default {
     methods: {
         setImg(id) {
             this.imgID = id - 1;
-        },
-        setMark() {
-
         },
         zoomUpdated(zoom) {
             this.zoom = zoom;
@@ -82,6 +78,7 @@ export default {
         },
         popupContent() {
             const embedUrl = `http://140.125.84.43:6006/api/sumo`;
+            embedUrl2 = "/api/stream/{{ url }}";
             //     return `
             // <div >
             //     <img object-fit:"fill" width="300px" height="315px" src="${embedUrl}" frameborder="0" encrypted-media" ></img>
