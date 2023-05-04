@@ -4,7 +4,7 @@
       <Menu></Menu>
       
     </div>
-    <div class="mapOn"><Map/></div>
+    <div  class="mapOn"><Map/></div>
     <!-- <div v-if="$store.state.isSideBarOpen"> 
       <div class="mapOff"><Map/></div>
     </div>
