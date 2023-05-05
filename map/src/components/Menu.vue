@@ -1,7 +1,5 @@
 <template>
-  <div id="app">
-    
-    <div>
+
       <!--  -->
     <Slide   @openMenu="handleOpenMenu" @closeMenu="handleCloseMenu">
       <div ><h2/>Area Text</div>
@@ -22,14 +20,13 @@
         <span>Road4</span>
       </a>
     </Slide>
-    </div>
-</div>
+
 
 </template>
 
 <script>
 import { Slide } from 'vue-burger-menu'
-import { mapActions, mapState } from 'vuex';
+import { mapActions } from 'vuex';
   export default {
     name: 'menubar',
     components: {
@@ -42,14 +39,8 @@ import { mapActions, mapState } from 'vuex';
       };
     },
     methods: {
-      ...mapActions(
-        {setCenter: 'setCenter'},
-        // {setZoom: 'setZoom'},
-        
-        ),
-        setZoom(z) {
-          this.$store.state.mapZoom = z
-        }
+      ...mapActions({setCenter: 'setCenter'},),
+      ...mapActions({ setZoom: 'setZoom'}),
 
     },
     computed: {

@@ -1,10 +1,7 @@
 <template>
-  <div id="app">
-    <div >
-      <Menu></Menu>
-      
-    </div>
-    <div  class="mapOn"><Map/></div>
+  <div id="app" style="margin-top: 30px">
+      <Map/><Menu></Menu> 
+  
     <!-- <div v-if="$store.state.isSideBarOpen"> 
       <div class="mapOff"><Map/></div>
     </div>
@@ -43,14 +40,4 @@ export default {
   z-index: 2;
  
 }
-.mapOn{
-  z-index: 1;
-  position: relative;
-}
-.mapOff{
-  opacity: 0.5;
-  z-index: 1;
-  position: relative;
-}
-
 </style>

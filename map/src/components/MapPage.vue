@@ -1,21 +1,29 @@
 <template>
-    <div>
-    <div id="map" style="margin-top: 150px;">   
-        <l-map class="map" style="height: 500px; width: 600px;" :zoom="this.$store.state.mapZoom" :options="{zoomControl: false}"
-            :center="$store.state.mapCenter" @update:zoom="zoomUpdated" @update:center="centerUpdated"
-            @update:bounds="boundsUpdated">
+    <div class="map-container">
+        <!-- <button class="ui button toggle" @click="switchSUMO()" :class="{ active: isSumo }">{{ isSumo ? 'SUMO' : 'CCTV' }}</button> -->
+        <!-- <button class="btnSwitch" @click="switchSUMO()">SWitch to SUMO</button> -->
+        <l-map id="map" style="height: 500px; width: 700px; margin-left: 50px;" :zoom="this.$store.state.mapZoom"
+            :options="{ zoomControl: false }" :center="$store.state.mapCenter" @update:zoom="zoomUpdated"
+            @update:center="centerUpdated" @update:bounds="boundsUpdated">
             <l-tile-layer :url="urlMap" :attribution="attribution"></l-tile-layer>
-            <l-marker v-for="item in markerList" :key="item.id" :lat-lng="item.latlng"  @click="setImg(item.id), setZoom(14)"></l-marker>
-            
-            <!--    src="${embedUrl}" -->
+            <l-marker v-for="item in markerList" :key="item.id" :lat-lng="item.latlng"
+                @click="setImg(item.id), showCCTV(), setZoom(14)"></l-marker>
         </l-map>
-    <div>
-    <img class="pop" src="${embedUrl}" />
-</div>
+
+        <!-- isSUMO: falsestyle="margin-right: 0px;  height: 500px; width: 500px;" 
+            -->
+            <div class="image-container">
+
+                <img class="image" :src="'https://cctv.bote.gov.taipei:8501/MJPEG/028'" />
+                <!-- 改成stream -->
+    
+                <img class="image" :src="sumoUrl" />
+            </div>
     </div>
-</div>
-        
-<!-- <img class="pop" :src="markerList[imgID].testSrc" /> -->
+
+
+
+    <!-- <img class="pop" :src="markerList[imgID].testSrc" /> -->
 </template>
   
 <script>
@@ -31,37 +39,41 @@ export default {
         LControl
     },
     data() {
-        return {
-            
+        return { //`http://140.125.84.43:6006/api/sumo`
+            sumoUrl: "http://140.125.84.43:6006/api/sumo", //sumo
+            embedUrl2: "https://i.ytimg.com/vi/7tpod5unpqI/maxresdefault.jp", //cctv
+            markerList: this.$store.state.markerList,
+            // embedUrl2: "/api/stream/{{ url }}",
             urlMap: 'https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png',
             bounds: null,
-            switchSumo: false,
-            markerList: [
-                {
-                    id: 1,
-                    latlng: [23.908865090204138, 120.53309659725994],
-                    testSrc: "https://lh3.googleusercontent.com/ckp3Ja2gVgQT3MMTMxy4kaiItLfbOMvuHEBbhxfDYb774DVy0qNsmntgG7bgdb34ZB82Y4HtVmPLOG2c=w544-h544-l90-rj"
-
-                },
-                {
-                    id: 2,
-                    latlng: [23.913262679155643, 120.61473275636878],
-                    testSrc: "https://lh3.googleusercontent.com/Cg_2aGl_419YNtK9QXnnYeOP3LTgLa8N35pVqzLpFHoGQKI9jGRNZ1IzumFKIaFLHJXpjecQdLGiOEdU=w544-h544-l90-rj"
-                }
-
-            ],
             showImg: false,
+            isSumo: false,
             imgID: 0,
-            iconUrl: 'cctv.png',
+
         };
     },
     mounted() {
         this.$store.dispatch('')
         this.$store.dispatch('setMap')
+
+
     },
     methods: {
+        showCCTV() {
+            this.showImg = true;
+            if (!this.clickBtn) {
+                this.clickBtn = true;
+            } else {
+                this.clickBtn = false;
+            }
+        },
         setImg(id) {
             this.imgID = id - 1;
+            if (!this.clickBtn) {
+                this.clickBtn = true;
+            } else {
+                this.clickBtn = false;
+            }
         },
         zoomUpdated(zoom) {
             this.zoom = zoom;
@@ -74,23 +86,15 @@ export default {
         },
         switchSUMO() {
             //code
-            this.switchSumo = true;
+            if (!this.isSumo) {
+                this.isSumo = true;
+            } else {
+                this.isSumo = false;
+            }
         },
-        popupContent() {
-            const embedUrl = `http://140.125.84.43:6006/api/sumo`;
-            embedUrl2 = "/api/stream/{{ url }}";
-            //     return `
-            // <div >
-            //     <img object-fit:"fill" width="300px" height="315px" src="${embedUrl}" frameborder="0" encrypted-media" ></img>
-            // </div>
-            // `;
-            return embedUrl
-        },
-        ...mapState(['mapCenter', 'mapZoom', 'markerList']),
+
         ...mapActions({ setCenter: 'setCenter' }),
-        setZoom(z) {
-            this.$store.state.mapZoom = z
-        },
+        ...mapActions({ setZoom: 'setZoom' }),
 
     },
     computed: {
@@ -101,25 +105,40 @@ export default {
 </script>
 
 <style>
-
-
 .btnSwitch {
     z-index: 500;
+    margin-bottom: 50px;
 }
 
-.map {
-    position: absolute;
-    margin-left: 100px;
-    z-index: 300;
-
-}
-
-.pop {
-    float: right;
+body {
+    margin: 0;
+    padding: 0;
     display: flex;
-    width: 700px;
-    height: 500px;
-    object-fit: fill;
-    margin-right: 100px;
+}
+
+#map {
+    width: 500px;
+}
+
+.map-container {
+    display: flex;
+    margin-top: 80px
+
+}
+
+#image-container {
+    flex: 1;
+    display: flex;
+    flex-direction: row;
+    justify-content: space-between;
+
+}
+
+.image {
+    width: 500px;
+    flex: 1;
+    height: 300px;
+    background-size: cover;
+    background-position: center;
 }
 </style>
