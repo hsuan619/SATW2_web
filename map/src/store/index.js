@@ -5,23 +5,27 @@ Vue.use(Vuex)
 
 export default new Vuex.Store({
   state: {
-    mapZoom: 13,//23.696051332926835, 120.53405425957615
+    mapZoom: 10,//23.696051332926835, 120.53405425957615
     mapCenter: [23.906671619621868, 120.60988332403272],
     map: null,
     mapBounds: null,
     isSideBarOpen: false,
     clickBtn: false,
+    imgID: 0,
+    showImg: false,
     markerList: [
       {
-        id: 1,
+        id: 0,
+        name: "台北1",
         latlng: [23.908865090204138, 120.53309659725994],
-        testSrc: "http://140.125.84.43:6006/api/stream/https://cctv.bote.gov.taipei:8501/MJPEG/028"
+        testSrc: "https://cctv.bote.gov.taipei:8501/MJPEG/028"
 
       },
       {
-        id: 2,
+        id: 1,
+        name: "台北2",
         latlng: [23.913262679155643, 120.61473275636878],
-        testSrc: "http://140.125.84.43:6006/api/stream/https://cctv.bote.gov.taipei:8501/MJPEG/012"
+        testSrc: "https://cctv.bote.gov.taipei:8501/MJPEG/012"
       }
 
     ],
@@ -30,15 +34,12 @@ export default new Vuex.Store({
     setMap(state, map) {
       state.map = map;
     },
-    addMarker(state, marker) {
-      state.markers.push(marker);
-    },
     removeMarker(state, markerId) {
       state.markers = state.markers.filter(marker => marker.id !== markerId);
     },
     setCenter(state, center) {
       state.mapCenter = center;
-      state.clickBtn = true;
+     
     },
     setZoom(state, z) {
       state.mapZoom = z;
@@ -46,6 +47,9 @@ export default new Vuex.Store({
     },
     addUrl(state, link) {
       state.Url.push(link);
+    },
+    setImgID(state, id){
+      state.imgID = id;
     }
 
   },
@@ -67,6 +71,12 @@ export default new Vuex.Store({
     },
     addUrl({ commit }) {
       commit('addUrl');
+    },
+    showCCTV({ commit }) {
+      commit('showCCTV');
+    },
+    setImgID({ commit }, id) {
+      commit('setImgID', id);
     },
   },
   getters: {
