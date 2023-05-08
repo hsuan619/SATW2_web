@@ -43,13 +43,14 @@ export default new Vuex.Store({
     },
     setZoom(state, z) {
       state.mapZoom = z;
-      state.clickBtn = true;
     },
     addUrl(state, link) {
       state.Url.push(link);
     },
     setImgID(state, id){
       state.imgID = id;
+      state.mapCenter = state.markerList[id],latlng;
+      state.mapZoom = 14
     }
 
   },

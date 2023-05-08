@@ -1,8 +1,8 @@
 <template>
     <div class="map-container">
         <!-- <button class="btnSwitch" @click="switchSUMO()">SWitch to SUMO</button> style="width: 800px; height: 500px; margin-left: 100px;"-->
-        <l-map id="map"  :zoom="mapZoom"
-            :options="{ zoomControl: false }" :center="mapCenter" @update:zoom="zoomUpdated"
+        <l-map id="map"  :zoom="this.$store.state.mapZoom"
+            :options="{ zoomControl: false }" :center="this.$store.state.mapCenter" @update:zoom="zoomUpdated"
             @update:center="centerUpdated" @update:bounds="boundsUpdated">
             <l-tile-layer :url="urlMap" :attribution="attribution"></l-tile-layer>
             <l-marker v-for="item in markerList" :key="item.id" :lat-lng="item.latlng" @click="setZoom(14),setCenter(item.latlng), setImgID(item.id)">
@@ -18,7 +18,6 @@
    
                 <img class="image" :src="sumoUrl" />
             </div>
-            <p>{{$store.state.clickBtn}}</p>
     </div>
 
 

@@ -5,11 +5,11 @@
       <div ><h2/>Area Text</div>
       <a id="R1" href="#">
         <i class="fa fa-fw fa-star-o"></i>
-        <span @click="setCenter([23.908865090204138, 120.53309659725994]), setZoom(14), setImgID(0)" > {{ this.$store.state.imgID }}  Road1</span>
+        <span @click="setImgID(0), setZoom(14), setCenter([23.908865090204138, 120.53309659725994])" >  Road1 {{this.$store.state.markerList[0].name}} </span>
       </a>
       <a id="R2" href="#">
         <i class="fa fa-fw fa-star-o"></i>
-        <span @click="setCenter([23.913262679155643, 120.61473275636878]), setZoom(14), setImgID(1)" > {{$store.state.mapCenter}} Road2</span>
+        <span @click="setImgID(1), setZoom(14), setCenter([23.913262679155643, 120.61473275636878])" > Road2 {{this.$store.state.markerList[1].name}}</span>
       </a>
       <a id="R3" href="#">
         <i class="fa fa-fw fa-star-o"></i>
@@ -39,11 +39,11 @@ import { mapActions, mapState } from 'vuex';
       };
     },
     methods: {
-      ...mapActions({setCenter: 'setCenter'}),
-      ...mapActions({ setZoom: 'setZoom'}),
-      ...mapActions({ showCCTV: 'showCCTV' }),
-      ...mapActions({ setImgID: 'setImgID' }),
-
+      setImgID(id){
+        this.$store.state.imgID = id
+      },
+      ...mapActions({ setZoom: 'setZoom' }),
+      ...mapActions({ setCenter: 'setCenter' }),
     },
     computed: {
 
